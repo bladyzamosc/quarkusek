@@ -10,7 +10,7 @@ public class City
 {
   private Long id;
   private String name;
-  private County county;
+  private Voivodeship voivodeship;
   private Integer population;
 
   public City()
@@ -44,16 +44,6 @@ public class City
     this.name = name;
   }
 
-  public County getCounty()
-  {
-    return county;
-  }
-
-  public void setCounty(County county)
-  {
-    this.county = county;
-  }
-
   public Integer getPopulation()
   {
     return population;
@@ -64,11 +54,22 @@ public class City
     this.population = population;
   }
 
+  public void setVoivodeship(Voivodeship voivodeship)
+  {
+    this.voivodeship = voivodeship;
+  }
+
+  public Voivodeship getVoivodeship()
+  {
+    return voivodeship;
+  }
+
   public static City from(Row row)
   {
     return new City(
       row.getLong("id"),
       row.getString("name"),
-      row.getInteger("population"));
+      row.getInteger("population")
+    );
   }
 }

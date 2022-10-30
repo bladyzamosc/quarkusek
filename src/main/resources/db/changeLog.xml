@@ -1,0 +1,66 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog
+    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="bladyzamosc" id="1">
+        <createTable tableName="voivodeship">
+            <column computed="false" name="id" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_Voivodeship"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="code" type="varchar(2)"/>
+            <column name="area" type="int"/>
+            <column name="abbreviation" type="varchar(2)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="bladyzamosc" id="2">
+        <createTable tableName="city">
+            <column computed="false" name="id" autoIncrement="true" type="bigint">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_City"/>
+            </column>
+            <column name="name" type="varchar(255)"/>
+            <column name="code" type="varchar(2)"/>
+            <column name="population" type="int"/>
+            <column name="voivodeshipId" type="bigint"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="bladyzamosc" id="3">
+        <addForeignKeyConstraint baseColumnNames="voivodeshipId"
+                                 baseTableName="city"
+                                 constraintName="FK_city_to_voivodeship"
+                                 deferrable="false" initiallyDeferred="false"
+                                 onDelete="NO ACTION" onUpdate="NO ACTION"
+                                 referencedColumnNames="id" referencedTableName="voivodeship"
+                                 validate="true"/>
+    </changeSet>
+
+<changeSet author="bladyzamosc" id="4" >
+    <sql>
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (1,'Lower Silesian', '02', 19947, 'DS');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (2,'Kuyavian-Pomeranian', '04', 17971, 'KP');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (3,'Lublin', '06', 25123, 'LU');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (4,'Lubusz', '08', 13988, 'LB');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (5,'Lodz', '02', 18219, 'LD');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (6,'Lesser Poland', '02', 15183, 'MA');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (7,'Mazovian', '02', 35559, 'MZ');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (8,'Opole', '02', 9412, 'OP');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (9,'	Subcarpathian', '02', 17846, 'PK');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (10,'Podlaskie', '02', 20187,'PD');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (11,'Pomeranian', '02', 18323,'PM');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (12,'Silesian', '02', 12333, 'SL');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (13,'Holy Cross', '02', 11710,'SK');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (14,'Warmian-Masurian', '02', 24173, 'WN');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (15,'Warmian-Masurian', '02', 29826, 'WP');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (16,'West Pomeranian', '02', 22905, 'ZP');
+    </sql>
+</changeSet>
+
+
+</databaseChangeLog>
