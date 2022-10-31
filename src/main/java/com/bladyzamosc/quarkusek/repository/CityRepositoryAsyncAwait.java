@@ -25,8 +25,8 @@ public class CityRepositoryAsyncAwait
   public City save(City city)
   {
     Long id = pgPool
-      .preparedQuery("INSERT INTO city (name, population) VALUES ($1,$2) RETURNING id")
-      .executeAndAwait(Tuple.of(city.getName(), city.getPopulation()))
+      .preparedQuery("INSERT INTO city (name, population, voivodeship_id) VALUES ($1,$2, $3) RETURNING id")
+      .executeAndAwait(Tuple.of(city.getName(), city.getPopulation(), city.getVoivodeship().getId()))
       .iterator().next().getLong("id");
     city.setId(id);
     return city;

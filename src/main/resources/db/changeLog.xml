@@ -1,10 +1,7 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
-    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd
-    http://www.liquibase.org/xml/ns/dbchangelog
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
     https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
 
     <changeSet author="bladyzamosc" id="1">
@@ -27,12 +24,12 @@
             <column name="name" type="varchar(255)"/>
             <column name="code" type="varchar(2)"/>
             <column name="population" type="int"/>
-            <column name="voivodeshipId" type="bigint"/>
+            <column name="voivodeship_id" type="bigint"/>
         </createTable>
     </changeSet>
 
     <changeSet author="bladyzamosc" id="3">
-        <addForeignKeyConstraint baseColumnNames="voivodeshipId"
+        <addForeignKeyConstraint baseColumnNames="voivodeship_id"
                                  baseTableName="city"
                                  constraintName="FK_city_to_voivodeship"
                                  deferrable="false" initiallyDeferred="false"
@@ -57,7 +54,7 @@
         insert into voivodeship(id, name, code, area, abbreviation) VALUES (12,'Silesian', '02', 12333, 'SL');
         insert into voivodeship(id, name, code, area, abbreviation) VALUES (13,'Holy Cross', '02', 11710,'SK');
         insert into voivodeship(id, name, code, area, abbreviation) VALUES (14,'Warmian-Masurian', '02', 24173, 'WN');
-        insert into voivodeship(id, name, code, area, abbreviation) VALUES (15,'Warmian-Masurian', '02', 29826, 'WP');
+        insert into voivodeship(id, name, code, area, abbreviation) VALUES (15,'Greater Poland', '02', 29826, 'WP');
         insert into voivodeship(id, name, code, area, abbreviation) VALUES (16,'West Pomeranian', '02', 22905, 'ZP');
     </sql>
 </changeSet>
