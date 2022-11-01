@@ -13,10 +13,11 @@ public class Voivodeship
   private String code;
   private Integer area;
   private String abbreviation;
+  private Integer population;
 
   public Voivodeship()
   {
-
+    this.population = 0;
   }
 
   public Voivodeship(Long id, String name, String code, Integer area, String abbreviation)
@@ -26,6 +27,7 @@ public class Voivodeship
     this.code = code;
     this.area = area;
     this.abbreviation = abbreviation;
+    this.population = 0;
   }
 
   public Long getId()
@@ -76,6 +78,10 @@ public class Voivodeship
   public void setAbbreviation(String abbreviation)
   {
     this.abbreviation = abbreviation;
+  }
+
+  public void addPopulation(int population) {
+    this.population+=population;
   }
 
   public static Voivodeship from(Row row)

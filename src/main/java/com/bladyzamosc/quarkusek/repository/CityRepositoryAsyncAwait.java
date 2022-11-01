@@ -32,7 +32,9 @@ public class CityRepositoryAsyncAwait
       .executeAndAwait(Tuple.of(city.getName(), city.getPopulation(), city.getVoivodeship().getId()))
       .iterator().next().getLong("id");
     city.setId(id);
-    city.setVoivodeship(voivodeshipsRepositoryAsyncAwait.getVoivodeshipCache().get(city.getVoivodeship().getId()));
+    Voivodeship voivodeship = voivodeshipsRepositoryAsyncAwait.getVoivodeshipCache().get(city.getVoivodeship().getId());
+    voivodeship.addPopulation(city.getPopulation());
+    city.setVoivodeship(voivodeship);
     return city;
   }
 
