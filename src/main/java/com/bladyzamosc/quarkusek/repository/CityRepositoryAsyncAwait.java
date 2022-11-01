@@ -1,14 +1,14 @@
 package com.bladyzamosc.quarkusek.repository;
 
 import com.bladyzamosc.quarkusek.model.City;
+import com.bladyzamosc.quarkusek.model.Voivodeship;
 import io.vertx.mutiny.pgclient.PgPool;
 import io.vertx.mutiny.sqlclient.*;
 import org.jboss.logging.Logger;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: Z6EKI
@@ -22,6 +22,9 @@ public class CityRepositoryAsyncAwait
   @Inject
   Logger log;
 
+  @Inject
+  VoivodeshipsRepositoryAsyncAwait voivodeshipsRepositoryAsyncAwait;
+
   public City save(City city)
   {
     Long id = pgPool
@@ -29,25 +32,30 @@ public class CityRepositoryAsyncAwait
       .executeAndAwait(Tuple.of(city.getName(), city.getPopulation(), city.getVoivodeship().getId()))
       .iterator().next().getLong("id");
     city.setId(id);
+    city.setVoivodeship(voivodeshipsRepositoryAsyncAwait.getVoivodeshipCache().get(city.getVoivodeship().getId()));
     return city;
   }
 
-  public List<City> findAll()
+  public List<City> findAll(int limit, int offset)
   {
     log.info("FindAll()" + Thread.currentThread());
     RowSet<Row> rowSet = pgPool
-      .preparedQuery("SELECT * FROM city")
-      .executeAndAwait();
-    return iterateAndCreate(rowSet);
+      .preparedQuery("SELECT * FROM city LIMIT $1 OFFSET $2")
+      .executeAndAwait(Tuple.of(limit, offset));
+    return convert(rowSet);
   }
 
-  private List<City> iterateAndCreate(RowSet<Row> rowSet)
+  private List<City> convert(RowSet<Row> rowSet)
   {
-    List<City> persons = new ArrayList<>();
+    Map<Long, Voivodeship> map = voivodeshipsRepositoryAsyncAwait.getVoivodeshipCache();
+    List<City> cities = new ArrayList<>();
     for (Row row : rowSet)
     {
-      persons.add(City.from(row));
+      City city = City.from(row);
+      Long voivodeshipId = row.getLong("voivodeship_id");
+      city.setVoivodeship(map.get(voivodeshipId));
+      cities.add(city);
     }
-    return persons;
+    return cities;
   }
 }

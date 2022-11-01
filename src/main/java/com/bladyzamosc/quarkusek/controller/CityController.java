@@ -6,8 +6,8 @@ import io.smallrye.common.annotation.RunOnVirtualThread;
 import org.jboss.logging.Logger;
 
 import javax.inject.Inject;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import java.util.List;
 
 /**
  * User: Z6EKI
@@ -28,5 +28,11 @@ public class CityController
   {
     city = cityRepositoryAsyncAwait.save(city);
     return city;
+  }
+
+  @GET
+  public List<City> getAllCities(@QueryParam("limit") Integer limit, @QueryParam("offset") Integer offset)
+  {
+    return cityRepositoryAsyncAwait.findAll(limit == null ? 10 : limit, offset == null ? 0 : offset);
   }
 }
