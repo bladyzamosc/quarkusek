@@ -26,13 +26,16 @@ public class CityController
   @POST
   public City addCity(City city)
   {
+    log.infof("(%s) addCity(%s)", Thread.currentThread(), city.getName());
     city = cityRepositoryAsyncAwait.save(city);
     return city;
   }
 
   @GET
+  @RunOnVirtualThread
   public List<City> getAllCities(@QueryParam("limit") Integer limit, @QueryParam("offset") Integer offset)
   {
+    log.infof("(%s) getAllCities(%d,%d)", Thread.currentThread(), limit,offset);
     return cityRepositoryAsyncAwait.findAll(limit == null ? 10 : limit, offset == null ? 0 : offset);
   }
 }
